@@ -14,7 +14,8 @@ stage('build') {
 stage('build docker image') {
     node {
         mvn "clean package"
-		sh "docker build PATH = "${env.WORKSPACE}\\src\\main\\docker\\"
+		def ruta = "${env.WORKSPACE}\\src\main\\docker\\"
+		sh "docker build PATH = " + ruta
     }
 }
 
