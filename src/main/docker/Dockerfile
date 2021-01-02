@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM rainee/docker-alpine-oraclejdk8
 VOLUME /tmp
 ADD *.jar app.jar
 RUN sh -c 'touch /app.jar'
