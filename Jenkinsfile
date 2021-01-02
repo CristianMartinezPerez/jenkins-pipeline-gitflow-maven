@@ -14,8 +14,9 @@ stage('build') {
 stage('build docker image') {
     node {
         mvn "clean package"
-		def ruta = "C:\\\\Users\\\\cmartinez\\\\.jenkins\\\\workspace\\\\pruebas\\\\pipeline-maven-gitflow"+"\\\\src\\\\main\\\\docker\\\\"
-		sh "docker build PATH = " + ruta
+		dir(""C:\\\\Users\\\\cmartinez\\\\.jenkins\\\\workspace\\\\pruebas\\\\pipeline-maven-gitflow"+"\\\\src\\\\main\\\\docker\\\\") {
+                        sh 'docker build'
+                    }
     }
 }
 
