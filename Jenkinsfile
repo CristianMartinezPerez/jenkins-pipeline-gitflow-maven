@@ -14,7 +14,7 @@ stage('build') {
 stage('build docker image') {
     node {
         mvn "clean package"
-		sh "docker build -DskipTests"
+		sh "docker build "
     }
 }
 
