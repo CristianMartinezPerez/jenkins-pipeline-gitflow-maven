@@ -4,7 +4,7 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 
 stage('build') {
     node {
-	    println env.GIT_BRANCH
+	    echo GIT_BRANCH %GIT_BRANCH%
         checkout scm
         def v = version()
         currentBuild.displayName = "${env.GIT_BRANCH}-${v}-${env.BUILD_NUMBER}"
