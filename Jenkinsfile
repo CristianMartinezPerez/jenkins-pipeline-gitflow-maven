@@ -2,16 +2,17 @@
 
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
+
+environment {
+    FULL_PATH_BRANCH = "${sh(script:'git branch | awk '{print \$2}' | tr -2', returnStdout: true)}"
+    BRANCH_NAME = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
+  }
+
 stage('build') {
     //println "rama"+env.GIT_BRANCH
     node {
-        /*checkout scm*/
+        checkout scm
 
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/CristianMartinezPerez/jenkins-pipeline-gitflow-maven.git']]])        
-		/*sh "git branch|grep '\*'|tr -d '* \n'"*/
-		
-		env.BRANCH_NAME = $(sh "git branch | awk '{print \$2}' | tr -2")
-		
 		def v = version()
         currentBuild.displayName = "${env.BRANCH_NAME}-${v}-${env.BUILD_NUMBER}"
         mvn "clean verify"
