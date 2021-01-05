@@ -3,16 +3,14 @@
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
 
-environment {
-    BRANCH_NAME = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
-    /*BRANCH_NAME = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())*/
-  }
-
 stage('build') {
     
     node {
         checkout scm
-		println "rama"+scm.branches[0].name
+		println "rama"+scm.branches.first().name
+		
+		env.BRANCH_NAME = scm.branches.first().name
+		
 		def v = version()
         currentBuild.displayName = "${env.BRANCH_NAME}-${v}-${env.BUILD_NUMBER}"
         mvn "clean verify"
