@@ -3,10 +3,11 @@
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
 stage('build') {
-    println "rama"+env.GIT_BRANCH
+    //println "rama"+env.GIT_BRANCH
     node {
-        checkout scm
-        def v = version()
+        /*checkout scm*/
+
+checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: ‘LocalBranch’, localBranch: “**”]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/CristianMartinezPerez/jenkins-pipeline-gitflow-maven.git']]])        def v = version()
         currentBuild.displayName = "${env.GIT_BRANCH}-${v}-${env.BUILD_NUMBER}"
         mvn "clean verify"
     }
