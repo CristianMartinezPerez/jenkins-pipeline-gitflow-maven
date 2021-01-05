@@ -10,7 +10,7 @@ stage('build') {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/CristianMartinezPerez/jenkins-pipeline-gitflow-maven.git']]])        
 		/*sh "git branch|grep '\*'|tr -d '* \n'"*/
 		
-		env.BRANCH_NAME = sh $("git branch | awk '{print \$2}' | tr -2")
+		env.BRANCH_NAME = $(sh "git branch | awk '{print \$2}' | tr -2")
 		
 		def v = version()
         currentBuild.displayName = "${env.BRANCH_NAME}-${v}-${env.BUILD_NUMBER}"
