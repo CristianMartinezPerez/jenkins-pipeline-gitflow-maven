@@ -9,10 +9,10 @@ environment {
   }
 
 stage('build') {
-    //println "rama"+env.GIT_BRANCH
+    
     node {
         checkout scm
-
+		println "rama"+scm.branches[0].name
 		def v = version()
         currentBuild.displayName = "${env.BRANCH_NAME}-${v}-${env.BUILD_NUMBER}"
         mvn "clean verify"
